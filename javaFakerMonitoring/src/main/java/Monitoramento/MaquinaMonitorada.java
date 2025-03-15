@@ -1,7 +1,7 @@
+package Monitoramento;
+
 import com.github.javafaker.DateAndTime;
 import com.github.javafaker.Number;
-
-import java.util.Date;
 
 public class MaquinaMonitorada {
 
@@ -39,3 +39,4 @@ public class MaquinaMonitorada {
     }
 
 }
+
