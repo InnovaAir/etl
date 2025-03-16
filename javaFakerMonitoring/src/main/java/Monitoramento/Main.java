@@ -11,6 +11,8 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
+        OrdenacaoString ordenacaoString = new OrdenacaoString();
+
 
         Scanner input = new Scanner(System.in);
         while(true){
@@ -28,13 +30,7 @@ public class Main {
                 for(int i = 0; i < 10; i++) {
                     maquina = new MaquinaMonitorada(
                             faker.company().name(),
-                            faker.company().industry(),
-                            faker.address().cityName(),
-                            faker.number(),
-                            faker.idNumber().valid(),
-                            faker.name().fullName(),
-                            faker.phoneNumber().cellPhone(),
-                            faker.date()
+                            faker.number()
                     );
                     maquinas.add(maquina);
                 }
@@ -44,6 +40,7 @@ public class Main {
                     System.out.println(maquinas.get(j));
                     System.out.println("----------------------------------");
                 }
+
 
             } else if (resultado == 2){
                 while (true){
