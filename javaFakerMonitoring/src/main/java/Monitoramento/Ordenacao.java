@@ -1,6 +1,7 @@
 package Monitoramento;
 
-public class OrdenacaoNumerica {
+public class Ordenacao {
+
     public static void selectionSort (int[] v) {
 
         for (int i = 0; i < v.length - 1; i++) {

@@ -1,20 +1,13 @@
 package Monitoramento;
 
-import com.github.javafaker.Faker;
-
-import java.util.Locale;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 
 public class Main {
     public static void main(String[] args) {
-
-        OrdenacaoString ordenacaoString = new OrdenacaoString();
-
-
+        DadosExternos.criarLista();
         Scanner input = new Scanner(System.in);
+
         while(true){
             System.out.println("Olá! Seja bem vindo ao acervo de dados da InnovaAir! Pressione o número desejado para: " +
                     "\n 1. Visualizar  de Filiais " +
@@ -23,17 +16,6 @@ public class Main {
             Integer resultado = input.nextInt();
 
             if(resultado == 1){
-                Faker faker = new Faker(new Locale("pt-BR"));
-                List<MaquinaMonitorada> maquinas = new ArrayList<>();
-                MaquinaMonitorada maquina;
-
-                for(int i = 0; i < 10; i++) {
-                    maquina = new MaquinaMonitorada(
-                            faker.company().name(),
-                            faker.number()
-                    );
-                    maquinas.add(maquina);
-                }
 
                 for (int j = 0; j < maquinas.size(); j++) {
                     System.out.println("Máquina #" + (j + 1));
