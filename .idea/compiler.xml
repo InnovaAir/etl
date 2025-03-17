@@ -9,5 +9,8 @@
         <module name="javaFakerMonitoring" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ordenacaoMonitoring" target="23" />
+    </bytecodeTargetLevel>
   </component>
 </project>

@@ -1,4 +1,4 @@
-package estudo;
+package Estudo;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -21,7 +21,7 @@ public class Main {
             Integer resultado = input.nextInt();
 
             if (resultado == 1){
-                ordenacao.selectionSortOtimizado(qtdMaquinas);
+                Ordenacao.selectionSortOtimizado(qtdMaquinas);
 
                 for (int i = 0; i < qtdMaquinas.length; i++) {
                     System.out.println("-------------------------------------------");
@@ -29,7 +29,7 @@ public class Main {
                     System.out.println("Quantidade de Máquinas: " + qtdMaquinas[i]);
                 }
             } else if (resultado == 2){
-                ordenacao.stringSort((componentes));
+                Ordenacao.stringSort((componentes));
 
                 for (int i = 0; i < componentes.length; i++) {
                     System.out.println("-------------------------------------------");
