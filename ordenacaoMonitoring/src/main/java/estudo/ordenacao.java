@@ -1,19 +1,22 @@
-package Monitoramento;
+package estudo;
 
-public class Ordenacao {
-
-    public static void selectionSort (int[] v) {
-
+public class ordenacao {
+    public static void selectionSortOtimizado (int[] v){
+        int troca = 0;
         for (int i = 0; i < v.length - 1; i++) {
-            for (int j = i + 1; j < v.length; j++) {
-                if (v[j] < v[i]) {
-                    int aux = v[i];
-                    v[i] = v[j];
-                    v[j] = aux;
+            int indMenor = i;
+            for (int j = i + 1; j < v.length; j++){
+                if(v[j] < v[indMenor]){
+                    indMenor = j;
+                    troca++;
                 }
             }
+            int aux = v[i];
+            v[i] = v[indMenor];
+            v[indMenor] = aux;
         }
     }
+
     public static void stringSort(String[] v) {
         int n = v.length;
 
