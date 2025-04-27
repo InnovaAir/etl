@@ -36,16 +36,4 @@ public class Mapper {
 
         return new ByteArrayInputStream(outputStream.toByteArray());
     }
-
-    public static void salvarArquivoTemp(InputStream inputStream) throws IOException {
-        File tempFile = new File("temp.csv");
-        try (FileOutputStream fos = new FileOutputStream(tempFile)) {
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = inputStream.read(buffer)) != -1) {
-                fos.write(buffer, 0, length);
-            }
-            System.out.println("Arquivo temporário gerado em: " + tempFile.getAbsolutePath());
-        }
-    }
 }
