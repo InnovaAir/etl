@@ -25,6 +25,7 @@ public class Main implements RequestHandler<S3Event, String> {
                 InputStream s3InputStream = s3Client.getObject(sourceBucket, sourceKey).getObjectContent();
                 List<Dado> dados = Mapper.map(s3InputStream);
                 dados = Ordenar.ordernarPorValorCapturadoPorMetrica(dados);
+                dados = TratarValorCapturado.tratarParaMB(dados);
                 InputStream csvInput = Mapper.demap(dados);
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 byte[] buffer = new byte[1024];
