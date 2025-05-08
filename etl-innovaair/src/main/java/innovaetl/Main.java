@@ -13,7 +13,7 @@ public class Main implements RequestHandler<S3Event, String> {
 
         private final AmazonS3 s3Client = AmazonS3ClientBuilder.defaultClient();
 
-        private static final String DESTINATION_BUCKET = "innovaair-trusted12";
+        private static final String DESTINATION_BUCKET = "innovaair-trusted";
 
         @Override
         public String handleRequest(S3Event s3Event, Context context) {
@@ -36,7 +36,8 @@ public class Main implements RequestHandler<S3Event, String> {
                 ObjectMetadata metadata = new ObjectMetadata();
                 metadata.setContentLength(bytes.length);
                 metadata.setContentType("text/csv");
-                s3Client.putObject(DESTINATION_BUCKET, "dataTrusted.csv", new ByteArrayInputStream(bytes), metadata);
+                String nomeDestino = "Trusted" + sourceKey.substring(sourceKey.lastIndexOf('d'));
+                s3Client.putObject(DESTINATION_BUCKET, nomeDestino, new ByteArrayInputStream(bytes), metadata);
 
                 return "Sucesso no processamento";
             } catch (Exception e) {

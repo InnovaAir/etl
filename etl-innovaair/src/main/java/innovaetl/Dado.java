@@ -3,9 +3,9 @@ import com.opencsv.bean.CsvBindByName;
 
 public class Dado {
     @CsvBindByName
-    private String razaoSocial;
+    private String terminal;
     @CsvBindByName
-    private Integer idFilial;
+    private String setor;
     @CsvBindByName
     private Integer idMaquina;
     @CsvBindByName
@@ -19,20 +19,18 @@ public class Dado {
     @CsvBindByName
     private String momento;
 
-    public String getRazaoSocial() {
-        return razaoSocial;
+    public String getTerminal() {
+        return terminal;
     }
 
-    public void setRazaoSocial(String razaoSocial) {
-        this.razaoSocial = razaoSocial;
+    public void setTerminal(String terminal) {
+        this.terminal = terminal;
     }
 
-    public Integer getIdFilial() {
-        return idFilial;
-    }
+    public String getSetor() { return setor; }
 
-    public void setIdFilial(Integer idFilial) {
-        this.idFilial = idFilial;
+    public void setSetor(String setor) {
+        this.setor = setor;
     }
 
     public Integer getIdMaquina() {
@@ -83,9 +81,9 @@ public class Dado {
         this.momento = momento;
     }
 
-    public Dado(String razaoSocial, Integer idFilial, Integer idMaquina, String componente, String especificacao, String metrica, Double valorCapturado, String momento) {
-        this.razaoSocial = razaoSocial;
-        this.idFilial = idFilial;
+    public Dado(String terminal, String setor, Integer idMaquina, String componente, String especificacao, String metrica, Double valorCapturado, String momento) {
+        this.terminal = terminal;
+        this.setor = setor;
         this.idMaquina = idMaquina;
         this.componente = componente;
         this.especificacao = especificacao;
@@ -100,8 +98,8 @@ public class Dado {
     @Override
     public String toString() {
         return "Dado{" +
-                "razaoSocial='" + razaoSocial + '\'' +
-                ", idFilial=" + idFilial +
+                "terminal='" + terminal + '\'' +
+                ", setor=" + setor +
                 ", idMaquina=" + idMaquina +
                 ", componente='" + componente + '\'' +
                 ", especificacao='" + especificacao + '\'' +
