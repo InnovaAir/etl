@@ -10,13 +10,17 @@ import json
 
 import boto3
 
+from datetime import datetime
+
  
 
 def lambda_handler(event, context):
 
-    url =
+    mes_atual = datetime.now().month
+    ano_atual = datetime.now().year
+    data = f"{ano_atual}{mes_atual:02d}"
 
- "https://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/odata/EstatisticasTransacoesPix(Database=@Database)?@Database='202501'&$top=1000&$filter=FINALIDADE%20eq%20'Pix'%20and%20AnoMes%20eq%20202501&$format=text/csv&$select=AnoMes,VALOR,QUANTIDADE"   
+    url ="https://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/odata/EstatisticasTransacoesPix(Database=@Database)?@Database='" + data + "'&$top=1000&$filter=FINALIDADE%20eq%20'Pix'%20and%20AnoMes%20eq%20" + data + "&$format=text/csv&$select=AnoMes,VALOR,QUANTIDADE"   
 
     try:
 
@@ -28,15 +32,6 @@ def lambda_handler(event, context):
 
         resultado.raise_for_status()
 
-        # Decodifica o JSON
-
-        dados = resultado.json()
-
-        # Extrai a lista de transações Pix
-
-        transacoes = dados['value']
-
-        
 
         # Gero o arquivo json
 
