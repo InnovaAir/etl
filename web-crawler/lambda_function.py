@@ -33,7 +33,7 @@ def lambda_handler(event, context):
 
         nome_arquivoDestino = f"pix/pix{data}.csv"
         s3 = boto3.client('s3')
-        s3.upload_file(nome_arquivo, 'lucastrustedteste', nome_arquivoDestino)
+        s3.upload_file(nome_arquivo, 'bucket', nome_arquivoDestino)
 
     except requests.exceptions.RequestException as e:
 
