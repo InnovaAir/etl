@@ -20,7 +20,7 @@ def lambda_handler(event, context):
     ano_atual = datetime.now().year
     data = f"{ano_atual}{mes_atual:02d}"
 
-    url ="https://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/odata/EstatisticasTransacoesPix(Database=@Database)?@Database='" + data + "'&$top=1000&$filter=FINALIDADE%20eq%20'Pix'%20and%20AnoMes%20eq%20" + data + "&$format=text/csv&$select=AnoMes,VALOR,QUANTIDADE"   
+    url = f"https://olinda.bcb.gov.br/olinda/servico/Pix_DadosAbertos/versao/v1/odata/EstatisticasTransacoesPix(Database=@Database)?@Database='{data}'&$top=1000&$filter=FINALIDADE%20eq%20'Pix'%20and%20AnoMes%20eq%20{data}&$format=text/csv&$select=AnoMes,VALOR,QUANTIDADE"   
 
     try:
 
@@ -33,12 +33,10 @@ def lambda_handler(event, context):
 
         nome_arquivoDestino = f"pix/pix{data}.csv"
         s3 = boto3.client('s3')
-        s3.upload_file(nome_arquivo, 'bucket', nome_arquivoDestino)
+        s3.upload_file(nome_arquivo, 'lucastrustedteste', nome_arquivoDestino)
 
     except requests.exceptions.RequestException as e:
 
         print(f"Erro na requisição: {e}")
 
         return None
-
-print(lambda_handler(None, None))
