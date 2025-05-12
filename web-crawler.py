@@ -12,7 +12,7 @@ import boto3
 
 from datetime import datetime
 
- 
+import csv
 
 def lambda_handler(event, context):
 
@@ -25,43 +25,15 @@ def lambda_handler(event, context):
     try:
 
         resultado = requests.get(url)
-
-        
-
-        # Verifica se a requisição foi bem-sucedida
-
         resultado.raise_for_status()
 
+        nome_arquivo = f"/tmp/pix{data}.csv"
+        with open(nome_arquivo, 'w', newline='') as csvfile:
+            csvfile.write(resultado.text)
 
-        # Gero o arquivo json
-
-        nome_arquivo = os.path.join(tempfile.gettempdir(), 'dados.json')
-
-        with open(nome_arquivo, mode='wt') as f:
-
-            json.dump(transacoes, f)
-
-           
-
-        # Upload para o s3
-
+        nome_arquivoDestino = f"pix/pix{data}.csv"
         s3 = boto3.client('s3')
-
-        s3.upload_file(
-
-            Filename=nome_arquivo,
-
-            Bucket='my-python-bucket-01',
-
-            Key='pix/dados.json'
-
-        )
-
-        
-
-        return transacoes
-
-    
+        s3.upload_file(nome_arquivo, 'bucket', nome_arquivoDestino)
 
     except requests.exceptions.RequestException as e:
 
@@ -69,17 +41,4 @@ def lambda_handler(event, context):
 
         return None
 
-    
-
-    except json.JSONDecodeError as e:
-
-        print(f"Erro ao decodificar JSON: {e}")
-
-        print(f"Resposta completa da API: {resultado.text}")
-
-        return None
-
- 
-
 print(lambda_handler(None, None))
-
