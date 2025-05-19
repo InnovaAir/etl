@@ -31,4 +31,17 @@ public class Ordenar {
         }
         return dados;
     }
+
+    public static List<Pix> ordenarPorValor(List<Pix> pixes){
+        for (int i = 0; i < pixes.size(); i ++){
+            for (int j = i+1; j < pixes.size(); j++){
+                if (pixes.get(j).getVALOR().compareTo(pixes.get(i).getVALOR()) < 0){
+                    Pix temp = pixes.get(i);
+                    pixes.set(i, pixes.get(j));
+                    pixes.set(j, temp);
+                }
+            }
+        }
+        return pixes;
+    }
 }

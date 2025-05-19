@@ -22,6 +22,16 @@ public class Mapper {
         return csvToBean.parse();
     }
 
+    public static List<Pix> mapPix(InputStream inputStream) throws IOException{
+        InputStreamReader leitor = new InputStreamReader(inputStream);
+        CsvToBean<Pix> csvToBean = new CsvToBeanBuilder<Pix>(leitor)
+                .withType(Pix.class)
+                .withIgnoreLeadingWhiteSpace(true)
+                .build();
+
+        return csvToBean.parse();
+    }
+
     public static InputStream demap(List<Dado> dados) throws Exception{
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         OutputStreamWriter gravador = new OutputStreamWriter(outputStream);
@@ -31,6 +41,21 @@ public class Mapper {
                 .build();
 
         beanToCsv.write(dados);
+        gravador.flush();
+        gravador.close();
+
+        return new ByteArrayInputStream(outputStream.toByteArray());
+    }
+
+    public static InputStream demapPix(List<Pix> pixes) throws Exception{
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        OutputStreamWriter gravador = new OutputStreamWriter(outputStream);
+
+        StatefulBeanToCsv<Pix> beanToCsv = new StatefulBeanToCsvBuilder<Pix>(gravador)
+                .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
+                .build();
+
+        beanToCsv.write(pixes);
         gravador.flush();
         gravador.close();
 
