@@ -22,10 +22,22 @@ public class Main implements RequestHandler<S3Event, String> {
             String sourceKey = s3Event.getRecords().get(0).getS3().getObject().getKey();
 
             try {
+                InputStream csvInput = null;
+                String nomeDestino = null;
                 InputStream s3InputStream = s3Client.getObject(sourceBucket, sourceKey).getObjectContent();
-                List<Dado> dados = Mapper.map(s3InputStream);
-                dados = Ordenar.ordernarPorValorCapturadoPorMetrica(dados);
-                InputStream csvInput = Mapper.demap(dados);
+                String nomeArquivo = s3Event.getRecords().get(0).getS3().getObject().getKey();
+                if(nomeArquivo.contains("pix")){
+                    List<Pix> pixes = Mapper.mapPix(s3InputStream);
+                    pixes = Ordenar.ordenarPorValor(pixes);
+                    csvInput = Mapper.demapPix(pixes);
+                    nomeDestino = "pix/Trusted" + nomeArquivo;
+                }
+                else if (nomeArquivo.contains("data")){
+                    List<Dado> dados = Mapper.map(s3InputStream);
+                    dados = Ordenar.ordenarPorValorCapturadoPorMetrica(dados);
+                    csvInput = Mapper.demap(dados);
+                    nomeDestino = "Trusted" + sourceKey.substring(sourceKey.lastIndexOf('d'));
+                }
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 byte[] buffer = new byte[1024];
                 int length;
@@ -36,7 +48,6 @@ public class Main implements RequestHandler<S3Event, String> {
                 ObjectMetadata metadata = new ObjectMetadata();
                 metadata.setContentLength(bytes.length);
                 metadata.setContentType("text/csv");
-                String nomeDestino = "Trusted" + sourceKey.substring(sourceKey.lastIndexOf('d'));
                 s3Client.putObject(DESTINATION_BUCKET, nomeDestino, new ByteArrayInputStream(bytes), metadata);
 
                 return "Sucesso no processamento";

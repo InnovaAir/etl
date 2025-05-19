@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Ordenar {
-    public static List<Dado> ordernarPorValorCapturadoPorMetrica(List<Dado> dados){
+    public static List<Dado> ordenarPorValorCapturadoPorMetrica(List<Dado> dados){
         for (int i = 0; i < dados.size(); i ++){
             for (int j = i+1; j < dados.size(); j++){
                 if (dados.get(j).getMetrica().compareTo(dados.get(i).getMetrica()) < 0){
