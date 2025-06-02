@@ -18,6 +18,28 @@ public class Dado {
     private Double valorCapturado;
     @CsvBindByName
     private String momento;
+    @CsvBindByName
+    private String fkMetrica;
+
+    public String getFkMetrica() {
+        return fkMetrica;
+    }
+
+    public void setFkMetrica(String fkMetrica) {
+        this.fkMetrica = fkMetrica;
+    }
+
+    public Dado(String terminal, String setor, Integer idMaquina, String componente, String especificacao, String metrica, Double valorCapturado, String momento, String fkMetrica) {
+        this.terminal = terminal;
+        this.setor = setor;
+        this.idMaquina = idMaquina;
+        this.componente = componente;
+        this.especificacao = especificacao;
+        this.metrica = metrica;
+        this.valorCapturado = valorCapturado;
+        this.momento = momento;
+        this.fkMetrica = fkMetrica;
+    }
 
     public String getTerminal() {
         return terminal;

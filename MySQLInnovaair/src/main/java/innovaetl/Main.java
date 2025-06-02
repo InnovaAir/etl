@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.lambda.runtime.events.S3Event;
 
+import javax.print.DocFlavor;
 import java.io.*;
 import java.sql.*;
 import java.util.List;
@@ -28,13 +29,29 @@ public class Main implements RequestHandler<S3Event, String> {
                 String nomeDestino = null;
                 InputStream s3InputStream = s3Client.getObject(sourceBucket, sourceKey).getObjectContent();
                 String nomeArquivo = s3Event.getRecords().get(0).getS3().getObject().getKey();
-                LocalDateTime dataAtual = LocalDateTime.now();
                 if (nomeArquivo.contains("data")){
                     List<Dado> dados = Mapper.map(s3InputStream);
-                    Conexao conexao = new Conexao();
+                    String url = "jdbc:mysql://10.18.32.178:3306/innovaair"; // Substitua pelos seus dados
+                    String user = "innova_admin";
+                    String password = "Innovaair@123";
+                    Class.forName("com.mysql.cj.jdbc.Driver");
+                    Connection connection = DriverManager.getConnection(url, user, password);
                     Statement statement = connection.createStatement();
-                    ResultSet resultSet = statemxent.executeQuery("INSERT INTO CAPTURA_ALERTA VALUES ();");
-                    conexao.closeConnection();
+                    ResultSet resultSet = null;
+                    for (Dado dado:dados){
+                        String insert = String.format("INSERT INTO captura_alerta (momento, valorCapturado, fkMetrica) VALUES ('%s', %f, %d);", dado.getMomento(), dado.getValorCapturado(), dado.getFkMetrica());
+                        int primeiro = insert.indexOf(",");
+                        int segundo = insert.indexOf(",", primeiro+1);
+                        int terceiro = insert.indexOf(",", segundo+1);
+                        int quarto = insert.indexOf(",", terceiro+1);
+                        System.out.println(quarto);
+                        StringBuilder stringBuilder = new StringBuilder(insert);
+                        stringBuilder.setCharAt(quarto, '.');
+                        System.out.println(stringBuilder);
+                        statement.executeUpdate(String.valueOf(stringBuilder));
+                    }
+                    statement.close();
+                    connection.close();
                 }
                 return "Sucesso no processamento";
             } catch (Exception e) {
