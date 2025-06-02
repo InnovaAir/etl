@@ -1,0 +1,64 @@
+package innovaetl;
+import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import com.opencsv.CSVWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.io.*;
+import java.util.List;
+
+public class Mapper {
+    public static List<Dado> map(InputStream inputStream) throws IOException{
+        InputStreamReader leitor = new InputStreamReader(inputStream);
+        CsvToBean<Dado> csvToBean = new CsvToBeanBuilder<Dado>(leitor)
+                .withType(Dado.class)
+                .withIgnoreLeadingWhiteSpace(true)
+                .build();
+
+        return csvToBean.parse();
+    }
+
+    public static List<Pix> mapPix(InputStream inputStream) throws IOException{
+        InputStreamReader leitor = new InputStreamReader(inputStream);
+        CsvToBean<Pix> csvToBean = new CsvToBeanBuilder<Pix>(leitor)
+                .withType(Pix.class)
+                .withIgnoreLeadingWhiteSpace(true)
+                .build();
+
+        return csvToBean.parse();
+    }
+
+    public static InputStream demap(List<Dado> dados) throws Exception{
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        OutputStreamWriter gravador = new OutputStreamWriter(outputStream);
+
+        StatefulBeanToCsv<Dado> beanToCsv = new StatefulBeanToCsvBuilder<Dado>(gravador)
+                .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
+                .build();
+
+        beanToCsv.write(dados);
+        gravador.flush();
+        gravador.close();
+
+        return new ByteArrayInputStream(outputStream.toByteArray());
+    }
+
+    public static InputStream demapPix(List<Pix> pixes) throws Exception{
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        OutputStreamWriter gravador = new OutputStreamWriter(outputStream);
+
+        StatefulBeanToCsv<Pix> beanToCsv = new StatefulBeanToCsvBuilder<Pix>(gravador)
+                .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
+                .build();
+
+        beanToCsv.write(pixes);
+        gravador.flush();
+        gravador.close();
+
+        return new ByteArrayInputStream(outputStream.toByteArray());
+    }
+}
