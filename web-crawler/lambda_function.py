@@ -10,6 +10,10 @@ import json
 
 import boto3
 
+from meteostat import Point, Daily
+
+from datetime import datetime
+
 from datetime import datetime
 
 import csv
@@ -24,12 +28,21 @@ def lambda_handler(event, context):
 
     try:
 
-        resultado = requests.get(url)
-        resultado.raise_for_status()
+        start = datetime(2020, 1, 1)
+        end = datetime(2020, 12, 31)
+
+        location = Point(-23.55, -46.63)
+
+        data = Daily(location, start, end)
+        data = data.fetch()
+
+        print(data.head())
+
+        toCsv = data.to_csv('/tmp/clima.csv')
 
         nome_arquivo = f"/tmp/pix{data}.csv"
         with open(nome_arquivo, 'w', newline='') as csvfile:
-            csvfile.write(resultado.text)
+            csvfile.write(toCsv)
 
         nome_arquivoDestino = f"pix/pix{data}.csv"
         s3 = boto3.client('s3')
